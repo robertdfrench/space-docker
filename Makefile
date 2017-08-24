@@ -1,12 +1,19 @@
-test: penis.img shared
-	docker run penis.img singularity --debug create /Users/rf9/Projects/space-docker/shared/ponis.img
+SD_ROOT=$(PWD)
+SD_SHARED=$(SD_ROOT)/shared
 
-penis.img: Dockerfile
-	docker build -t=penis.img .
+$(SD_SHARED)/client.singularityimg: host.dockerimg $(SD_SHARED)/Singularity
+	docker run --privileged host.dockerimg singularity create $(SD_SHARED)/client.singularityimg
+	docker run --privileged host.dockerimg singularity bootstrap $(SD_SHARED)/client.singularityimg $(SD_SHARED)/Singularity
 
-shared:
-	mkdir -p shared
+host.dockerimg: Dockerfile
+	docker build -t=host.dockerimg .
+
+$(SD_SHARED)/Singularity: Singularity $(SD_SHARED)
+	cp Singularity $(SD_SHARED)
+
+$(SD_SHARED):
+	mkdir -p $(SD_SHARED)
 
 clean:
 	rm -rf shared
-	rm penis.img
+	rm host.dockerimg

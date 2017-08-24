@@ -10,4 +10,4 @@ RUN wget https://github.com/singularityware/singularity/releases/download/2.3.1/
     cd singularity-2.3.1/ && \
     ./configure && make && make install
 
-VOLUME ["/Users/rf9/Projects/space-docker/shared", "/dev"]
+VOLUME ["/Users/rf9/Projects/space-docker/shared"]
