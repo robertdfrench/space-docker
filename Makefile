@@ -1,9 +1,10 @@
 SD_ROOT=$(PWD)
 SD_SHARED=$(SD_ROOT)/shared
+DOCKER_RUN=docker run --privileged --mount type=bind,source="$(SD_SHARED)",target=/shared
 
 $(SD_SHARED)/client.singularityimg: host.dockerimg $(SD_SHARED)/Singularity
-	docker run --privileged host.dockerimg singularity create $(SD_SHARED)/client.singularityimg
-	docker run --privileged host.dockerimg singularity bootstrap $(SD_SHARED)/client.singularityimg $(SD_SHARED)/Singularity
+	$(DOCKER_RUN) host.dockerimg singularity create /shared/client.singularityimg
+	$(DOCKER_RUN) host.dockerimg singularity bootstrap /shared/client.singularityimg $(SD_SHARED)/Singularity
 
 host.dockerimg: Dockerfile
 	docker build -t=host.dockerimg .
