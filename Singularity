@@ -1,2 +1,2 @@
-Bootstrap:docker
-From:ubuntu:latest
+BootStrap: docker
+From: ubuntu:latest
